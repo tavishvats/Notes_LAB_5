@@ -24,14 +24,13 @@ public class MainActivity2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        TextView msg = (TextView) findViewById(R.id.welcome_msg);
-        Intent intent = getIntent();
         SharedPreferences pref = getSharedPreferences("com.example.notes", Context.MODE_PRIVATE);
-        msg.setText("Welcome " + intent.getStringExtra("message") + "!");
+        TextView msg = (TextView) findViewById(R.id.welcome_msg);
+        msg.setText("Welcome " + pref.getString("username", "") + "!");
         Context context = getApplicationContext();
         SQLiteDatabase sqLiteDatabase = context.openOrCreateDatabase("notes", Context.MODE_PRIVATE, null);
         DBHelper helper = new DBHelper(sqLiteDatabase);
-        helper.readNotes(pref.getString("username", ""));
+        notes = helper.readNotes(pref.getString("username", ""));
         ArrayList<String> displayNotes = new ArrayList<>();
         for (Note note: notes) {
             displayNotes.add(String.format("Title:%s\n%s", note.getTitle(), note.getDate()));
@@ -42,10 +41,10 @@ public class MainActivity2 extends AppCompatActivity {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent1 = new Intent(getApplicationContext(), MainActivity3.class);
-                intent1.putExtra("noteid", i);
-                startActivity(intent1);
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity3.class);
+                intent.putExtra("noteid", position);
+                startActivity(intent);
             }
         });
     }

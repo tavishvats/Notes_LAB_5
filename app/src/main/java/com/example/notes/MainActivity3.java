@@ -20,7 +20,6 @@ import java.util.ServiceConfigurationError;
 public class MainActivity3 extends AppCompatActivity {
 
     int noteid = -1;
-    private static final String TAG = "MyActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +46,7 @@ public class MainActivity3 extends AppCompatActivity {
         String title;
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         String date = dateFormat.format(new Date());
-        if (noteid != -1) {
+        if (noteid == -1) {
             title = "NOTE_" + (MainActivity2.notes.size() + 1);
             helper.saveNotes(username, title, content, date);
         } else {

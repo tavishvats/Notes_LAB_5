@@ -19,7 +19,7 @@ public class DBHelper {
                 "content TEXT, src TEXT)");
     }
 
-    public void readNotes(String username) {
+    public ArrayList<Note> readNotes(String username) {
         createTable();
         Cursor c = sqLiteDatabase.rawQuery(String.format("SELECT * from notes where username is '%s'",
                 username), null);
@@ -39,6 +39,7 @@ public class DBHelper {
 
         c.close();
         sqLiteDatabase.close();
+        return notesList;
     }
 
     public void saveNotes(String username, String title, String content, String date) {
